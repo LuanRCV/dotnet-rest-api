@@ -6,8 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using rest_api.Model.Context;
-using rest_api.Services;
-using rest_api.Services.Implementations;
+using rest_api.Business;
+using rest_api.Business.Implementations;
+using rest_api.Repository;
+using rest_api.Repository.Implementations;
 
 namespace rest_api
 {
@@ -25,13 +27,18 @@ namespace rest_api
         {
 
             services.AddControllers();
-
+            
+            // Database Connection
             var connection = Configuration["MySQLConnection:MySQLConnectionString"];
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
 
+            // Versioning API
+            services.AddApiVersioning();
+
             // Dependency Injection
-            services.AddScoped<IPersonService,PersonServiceImplementation>();
-            
+            services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
+            services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "rest_api", Version = "v1" });

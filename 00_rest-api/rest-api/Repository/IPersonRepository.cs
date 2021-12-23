@@ -1,13 +1,13 @@
 ﻿using rest_api.Model;
 using System.Collections.Generic;
 
-namespace rest_api.Services
+namespace rest_api.Repository
 {
-    public interface IPersonService
+    public interface IPersonRepository
     {
-        Person Create(Person person);
-        Person FindById(long id);
         List<Person> FindAll();
+        Person FindById(long id);
+        Person Create(Person person);
         Person Update(Person person);
         void Delete(long id);
     }

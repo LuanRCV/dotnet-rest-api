@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace rest_api.Services.Implementations
+namespace rest_api.Repository.Implementations
 {
-    public class PersonServiceImplementation : IPersonService
+    public class PersonRepositoryImplementation : IPersonRepository
     {
         private MySQLContext _context;
-        public PersonServiceImplementation(MySQLContext context)
+        public PersonRepositoryImplementation(MySQLContext context)
         {
            _context = context;
         }
