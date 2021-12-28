@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using rest_api.Model;
 using rest_api.Business;
+using rest_api.Data.VO;
 
 namespace rest_api.Controllers
 {
@@ -35,14 +36,14 @@ namespace rest_api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Person person)
+        public IActionResult Post([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
             return Ok(_personBusiness.Create(person));
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] Person person)
+        public IActionResult Put([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
             return Ok(_personBusiness.Update(person));

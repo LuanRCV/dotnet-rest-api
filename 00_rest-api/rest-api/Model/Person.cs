@@ -1,4 +1,5 @@
 ﻿using rest_api.Model.Base;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace rest_api.Model

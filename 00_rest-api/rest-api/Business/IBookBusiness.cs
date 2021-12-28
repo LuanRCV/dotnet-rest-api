@@ -1,14 +1,14 @@
-﻿using rest_api.Model;
+﻿using rest_api.Data.VO;
 using System.Collections.Generic;
 
 namespace rest_api.Business
 {
     public interface IBookBusiness
     {
-        List<Book> FindAll();
-        Book FindById(long id);
-        Book Create(Book book);
-        Book Update(Book book);
+        List<BookVO> FindAll();
+        BookVO FindById(long id);
+        BookVO Create(BookVO book);
+        BookVO Update(BookVO book);
         void Delete(long id);
     }
 }
