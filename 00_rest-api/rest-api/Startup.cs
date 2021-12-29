@@ -12,6 +12,8 @@ using rest_api.Repository;
 using Serilog;
 using System.Collections.Generic;
 using rest_api.Repository.Generic;
+using rest_api.Hypermedia.Filters;
+using rest_api.Hypermedia.Enricher;
 
 namespace rest_api
 {
@@ -44,6 +46,13 @@ namespace rest_api
             {
                 MigrateDatabase(connection);
             }
+
+            // HATEOAS Configuration
+            var filterOptions = new HyperMediaFilterOptions();
+            filterOptions.ContentResponseEnricherList.Add(new PersonEnricher());
+            filterOptions.ContentResponseEnricherList.Add(new BookEnricher());
+
+            services.AddSingleton(filterOptions);
 
             // Versioning API
             services.AddApiVersioning();
@@ -79,6 +88,7 @@ namespace rest_api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapControllerRoute("DefaultApi", "{controller=values}/{id?}");
             });
         }
 
