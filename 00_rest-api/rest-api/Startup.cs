@@ -88,7 +88,7 @@ namespace rest_api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapControllerRoute("DefaultApi", "{controller=values}/{id?}");
+                endpoints.MapControllerRoute("DefaultApi", "{controller=values}/{version}/{id?}");
             });
         }
 

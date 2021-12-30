@@ -12,8 +12,9 @@ namespace rest_api.Hypermedia.Enricher
 
         protected override Task EnrichModel(BookVO content, IUrlHelper urlHelper)
         {
-            var path = "api/book/v1";
-            string link = GetLink(content.Id, urlHelper, path);
+            string path = "api/person";
+            string version = "v1";
+            string link = GetLink(content.Id, urlHelper, path, version);
 
             content.Links.Add(new HyperMediaLink()
             {
@@ -50,13 +51,13 @@ namespace rest_api.Hypermedia.Enricher
             return null;
         }
 
-        private string GetLink(long id, IUrlHelper urlHelper, string path)
+        private string GetLink(long id, IUrlHelper urlHelper, string path, string version)
         {
             lock (_lock)
             {
-                var url = new { controller = path, id = id };
+                var url = new { controller = path, version = version, id = id };
                 var link = urlHelper.Link("DefaultApi", url);
-                
+
                 return new StringBuilder(link).Replace("%2F", "/").ToString();
             };
         }
