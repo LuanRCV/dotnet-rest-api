@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using rest_api.Repository.Generic;
 using rest_api.Hypermedia.Filters;
 using rest_api.Hypermedia.Enricher;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace rest_api
 {
@@ -57,16 +58,25 @@ namespace rest_api
             // Versioning API
             services.AddApiVersioning();
 
+            // Swagger Documentation
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "rest_api", 
+                    Version = "v1" ,
+                    Description = "RESTfull API developed for portfolio and learning",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Luan Vieira",
+                        Url = new System.Uri("https://github.com/LuanRCV")
+                    }
+                });
+            });
+
             // Dependency Injection
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
             services.AddScoped<IBookBusiness, BookBusinessImplementation>();
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
-           
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "rest_api", Version = "v1" });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,13 +85,18 @@ namespace rest_api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "rest_api v1"));
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "rest_api - v1"));
+
+            var option = new RewriteOptions();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
 
             app.UseAuthorization();
 

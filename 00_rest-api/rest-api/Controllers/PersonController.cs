@@ -4,6 +4,7 @@ using rest_api.Model;
 using rest_api.Business;
 using rest_api.Data.VO;
 using rest_api.Hypermedia.Filters;
+using System.Collections.Generic;
 
 namespace rest_api.Controllers
 {
@@ -22,6 +23,10 @@ namespace rest_api.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType((200), Type = typeof(List<PersonVO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
@@ -29,6 +34,10 @@ namespace rest_api.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType((200), Type = typeof(PersonVO))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get(long id)
         {
@@ -39,6 +48,9 @@ namespace rest_api.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType((200), Type = typeof(PersonVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Post([FromBody] PersonVO person)
         {
@@ -47,6 +59,9 @@ namespace rest_api.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType((200), Type = typeof(PersonVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Put([FromBody] PersonVO person)
         {
@@ -55,6 +70,9 @@ namespace rest_api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Delete(long id)
         {
             _personBusiness.Delete(id);
