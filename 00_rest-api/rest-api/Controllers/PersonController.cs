@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using rest_api.Model;
 using rest_api.Business;
 using rest_api.Data.VO;
 using rest_api.Hypermedia.Filters;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace rest_api.Controllers
 {
     [ApiVersion("1")]
     [ApiController]
+    [Authorize("Bearer")]
     [Route("api/[controller]/v{version:apiVersion}")]
     public class PersonController : ControllerBase
     {
