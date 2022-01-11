@@ -45,7 +45,7 @@ namespace rest_api.Business.Implementations
             if (!string.IsNullOrWhiteSpace(name)) query += $" AND p.first_name LIKE '%{name}%' ";
             query += $" ORDER BY p.first_name {sort} LIMIT {size} OFFSET {offset}";
 
-            string countQuery = @"SELECT COUNT(*) FROM Person p WHERE 1=1";
+            string countQuery = @"SELECT COUNT(*) FROM person p WHERE 1=1";
             if (!string.IsNullOrWhiteSpace(name)) countQuery += $" AND p.first_name LIKE '%{name}%'";
 
             List<Person> people = _repository.FindWithPagedSearch(query);
