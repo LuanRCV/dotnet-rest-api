@@ -1,6 +1,7 @@
 ﻿using rest_api.Model;
 using rest_api.Model.Context;
 using rest_api.Repository.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace rest_api.Repository
@@ -33,6 +34,24 @@ namespace rest_api.Repository
             }
 
             return user;
+        }
+
+        public List<Person> FindByName(string firstName, string lastName)
+        {
+            if (!string.IsNullOrWhiteSpace(firstName) && !string.IsNullOrWhiteSpace(lastName))
+            {
+                return _context.People.Where(p => p.FirstName.Contains(firstName) && p.LastName.Contains(lastName)).ToList();
+            }
+            else if (string.IsNullOrWhiteSpace(firstName) && !string.IsNullOrWhiteSpace(lastName))
+            {
+                return _context.People.Where(p => p.LastName.Contains(lastName)).ToList();
+            }
+            else if (!string.IsNullOrWhiteSpace(firstName) && string.IsNullOrWhiteSpace(lastName))
+            {
+                return _context.People.Where(p => p.FirstName.Contains(firstName)).ToList();
+            }
+
+            return null;
         }
     }
 }

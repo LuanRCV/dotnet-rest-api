@@ -23,29 +23,43 @@ namespace rest_api.Controllers
             _personBusiness = personBusiness;
         }
 
-        [HttpGet]
+        [HttpGet("{sortDirection}/{pageSize}/{page}")]
         [ProducesResponseType((200), Type = typeof(List<PersonVO>))]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] string name, string sortDirection, int pageSize, int page)
         {
-            return Ok(_personBusiness.FindAll());
+            return Ok(_personBusiness.FindWithPagedSearch(name, sortDirection, pageSize, page));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("findById")]
         [ProducesResponseType((200), Type = typeof(PersonVO))]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         [TypeFilter(typeof(HyperMediaFilter))]
-        public IActionResult Get(long id)
+        public IActionResult Get([FromQuery] long id)
         {
             var person = _personBusiness.FindById(id);
 
             if (person == null) return NotFound();
             return Ok(person);
+        }
+
+        [HttpGet("findByName")]
+        [ProducesResponseType((200), Type = typeof(PersonVO))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public IActionResult Get([FromQuery] string firstName, [FromQuery] string lastName)
+        {
+            var people = _personBusiness.FindByName(firstName, lastName);
+
+            if (people is null) return NotFound();
+            return Ok(people);
         }
 
         [HttpPost]
